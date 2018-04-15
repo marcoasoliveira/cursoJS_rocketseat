@@ -13,6 +13,9 @@ class App extends Component {
     super()
     
     this.state = {
+      novaNotaTitulo: '',
+      novaNotaData: '',
+      novaNotaTexto: '',
       novaNota: '', //estado inicial variável que recebe uma nova nota
       notas: []
     }
@@ -21,14 +24,24 @@ class App extends Component {
 
   adicionaNota(nota){
     nota.preventDefault()
-    const novaNota = this.state.novaNota
+    const data = new Date()
+    const novaNota = {titulo: this.state.novaNotaTitulo, 
+                      data: data.getDate()+'/'+data.getMonth()+'/'+data.getFullYear()+' - '+data.getHours()+'h'+data.getMinutes()+'m', 
+                      texto: this.state.novaNotaTexto}
     const notasAntigas = this.state.notas
     if(novaNota){
       this.setState({
         notas: [novaNota, ...notasAntigas], //comportamento semelhante ao .push(), adiciona novaNota ao array junto a todas as outras
+        novaNotaTitulo: '', 
+        novaNotaData: '',
+        novaNotaTexto: '', 
         novaNota: ''
       })
     }
+  }
+
+  removeNota(idNota){
+    console.log(idNota)
   }
 
   render() {
@@ -43,21 +56,23 @@ class App extends Component {
                   onSubmit= { this.adicionaNota }>
                     <div className = "form-group">
                       <label htmlFor = "titulo_nota"> Título da Nota </label>
-                      <input type = "text" className = "form-control" id="titulo_nota"/>
-                    </div>
-                    <div className = "form-group" hidden>
-                      <input type = "text" className = "form-control" id="data_nota"/>
+                      <input 
+                        type = "text" 
+                        className = "form-control" 
+                        id="titulo_nota"
+                        value = { this.state.novaNotaTitulo }
+                        onInput = { (event) => this.setState({ novaNotaTitulo: event.target.value }) } />
                     </div>
                     <div className = "form-group">
                         <span
-                          className={`nova_nota ${ this.state.novaNota.length > 200 /*verifica se a qtd de caracteres é maior que 200, se for altera o estilo do span para avisar*/
+                          className={`nova_nota ${ this.state.novaNotaTexto.length > 200 /*verifica se a qtd de caracteres é maior que 200, se for altera o estilo do span para avisar*/
                              ? 'novaNota-invalida':'' } 
-                        `}/> { this.state.novaNota.length } / 200 {/*contador de caracteres*/}
+                        `}/> { this.state.novaNotaTexto.length } / 200 {/*contador de caracteres*/}
                         <textarea 
                            className="form-control" 
                            id="nova_nota"
-                           value = { this.state.novaNota } /*define que o valor inserido na textarea é o valor presente em novaNota*/
-                           onInput = { (event) => this.setState({ novaNota: event.target.value })} /*insere no estado da variável cada caracter digitado*/
+                           value = { this.state.novaNotaTexto } /*define que o valor inserido na textarea é o valor presente em novaNota*/
+                           onInput = { (event) => this.setState({ novaNotaTexto: event.target.value })} /*insere no estado da variável cada caracter digitado*/
                            aria-describedby="O que achou do filme"
                            placeholder = "Escreva uma nota"/>
                     </div>
@@ -70,12 +85,13 @@ class App extends Component {
             <div className = "col-sm-8">
               <div className = "row">
                 {this.state.notas.map(   /* mapeia a variável notas procurando notas salvas, se houver, exibe na tela com o componente Nota */
-                  (notaInfo, index) => 
+                  (nota, index) => 
                   <Nota
-                    key = {notaInfo + index}  /* insere os itens na props da Nota */
-                    texto = {notaInfo}
-                    titulo = 'Vai ter um titulo aqui'
-                    dataCriacao = 'e uma data aqui'
+                    key = {nota + index}  /* insere os itens na props da Nota */
+                    titulo = {nota.titulo}
+                    dataCriacao = {nota.data}
+                    texto = {nota.texto}
+                    remove = {index}
                   /> 
                 )}
               </div>

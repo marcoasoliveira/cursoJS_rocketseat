@@ -9,7 +9,7 @@ export default class Nota extends Component {
                 <h5 className="card-title">{this.props.titulo}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">{ this.props.dataCriacao}</h6>
                 <p className="card-text">{ this.props.texto }</p>
-                <a href="" className="card-link text-danger">Excluir</a>
+                <button className = "btn btn-outline-danger">Excluir</button>
             </div>
         </div>
        )

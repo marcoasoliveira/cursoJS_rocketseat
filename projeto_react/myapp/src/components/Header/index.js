@@ -6,7 +6,7 @@ export default class Cabecalho extends Component {
         return(
            <header className="cabecalho">
                 <ul className="nav navbar-expand-lg navbar-light bg-light justify-content-end">
-                    <a className="navbar-brand" href=""> Projeto de React</a>
+                    <a className="navbar-brand" href=""> Projeto de React: <small>Bloco de notas</small></a>
                     <li className="nav-item">
                         <a href="" className="nav-link">Home</a>
                     </li>

@@ -1,0 +1,17 @@
+.cabecalho{
+    background-color: darkslategrey
+}
+
+.cabecalho nav{
+    padding: 1em
+}
+
+.cabecalho a{
+    padding: 1em;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.cabecalho a:hover{
+    font-weight: bold;
+}
